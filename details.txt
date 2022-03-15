@@ -1,0 +1,29 @@
+Aici sunt explicate functii mai esentiale, mai multe detalii in fisiere si comentarii.
+
+	int Comparare 
+Compara doua seriale(primul este cel din celula, al doilea este referinta/cel de inserat). Returneaza 1 in cazul in care al referinta trebuie sa fie inaintea celui curent. Returneaza 0 cand elementele sunt la fel sau 2 cand al doilea trebuie sa fie dupa primul(caz nesatisfacator).
+
+	void add_serial
+Functia se ocupa de adaugare a unui serial in lista de categorii. Dupa ce se citesc informatiile pentru Serial, se incepe completarea cozii de seriale cu cozile de episoade. Pentru fiecare sezon se creaza o coada noua de episoada, iar pentru fiecare episod se aloca un int * ce va memora durata. Se primeste o astfel de structura Serialul contine o coada de sezoane, pe post de informatie se afla o coada de episoade, pe post de informatie la care se alfa durata(int *). Dupa asta se aloca structura de serial si se insereaza in lista categoriilor
+
+	int inserare_lista
+Returneaza pozitia la care a fost inserat un serial. Insereaza doar in cazul in care elementul trebuie inserat inaintea celulei curente, tocmai de asta la sfarsit de parcurgere a listei, inseram la sfarsit.
+(presupunem ca trebuie sa inseram rating 3.0 si avem 5.0 4.0 1.0, functia de comparare returneaza -1 -1 1)
+
+	void prepare_for_add_sezon
+Se ocupa de pregatirea structurii cu informatia citita din fisierul de input(partea de inceput coincide cu cea din add_serial, doar ca face pentru un singur sezon). Dupa care trebuie sa caute unde se afla serialul pentru care adaugam sezon nou. Daca se afla in history, nici nu mergem in continuare. 
+	TLista extrage_ref_coada
+Extrage din coada un element in baza unei referinte c -> coada, element -> referinta, cmp -> functia de comparare res -> parametru care specifica daca e nevoie de eliminat din coada sau nu (1 -> elimina din coada, 0 -> nu elimina ci doar intoarce un pointer catre celula respectiva)
+	TLista extrage_ref_stiva
+Functioneaza la fel ca si extrage_ref_coada.
+	void add_new_season
+Deoarece primim serialul existent si serialul auxiliar alocat, din cel alocat aux extragem un singur sezon pe care il inseram in cel existent.
+
+	Inserarea in top10
+Parcurge aceeasi pasi de inceput ca si add_serial. Difera doar functia de inserare. Functia ce insereaza in categoria top10 returneaza celula in plus daca aceea exista. Iar daca aceea exista, bineinteles ca ea trebuie eliminata.
+
+	Adaugarea in watch_later
+Cautam doar in lista de categorii(asa e specificat in conditie). Daca nu a fost gasit, mergi mai departe, iar daca a fost, insereaza in coada watch_later si il elimina din lista categoriei in care se afla(folosindu-se de get_serial_id, unde ID 1-3 -> categorii primare, ID 4 - Top10).
+
+	Watch serial
+Dupa ce a fost alocat serialul auxiliar pentru cautare, cautam peste tot unde ar putea fi un serial care putem sa il privim (folosindu-ma de functiile de mai sus). Cum privesc un serial? Extrag sezon cu sezon, din sezon episod cu episod. Daca timpul de privit > durata episodului => distrug episodu, decrementez timpul cu durata sa, iar daca durata episodului > timpul => decrementez durata episodului cu timpul ramas si timpul ramas = 0. Asa pas cu pas, daca am vazut toate episoadele unui sezon, distrugem acest sezon. Si asa daca am ajuns ca nu mai avem sezoane => serialul a fost vizionat integral.
